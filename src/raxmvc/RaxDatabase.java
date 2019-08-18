@@ -29,10 +29,21 @@ public class RaxDatabase extends RaxConfig{
             DATA_SOURCE.setPassword(getDBpassword());
             DATA_SOURCE.setServerTimezone(getTimeZone());
             RaxConfig.setConnection(DATA_SOURCE.getConnection());
+            Thread.sleep(1000);
             //System.out.println("Sets");
         } catch (SQLException ex) {
             Logger.getLogger(RaxDatabase.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Configuration database not synchronized.", "Error configuration", JOptionPane.ERROR_MESSAGE);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RaxDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }finally {
+            try {
+                if (RaxConfig.getConnection() != null) {
+                    RaxConfig.getConnection().close();
+                }
+            } catch (SQLException ex) {
+            }
         }
     }
     
